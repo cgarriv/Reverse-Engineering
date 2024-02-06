@@ -59,9 +59,14 @@ syscall
 
  xor %rdx, %rdx: Zero out or clear for third arguement 
 
- syscall: invokes the system call. 
+ syscall: invokes the system call.
 
+ # Total Bytes
 
+ Running x_shellcode.py gave me the results of:
+
+ "Generated shellcode is of length: 38
+ 4831c05048bb2f262696e2f7368534889e74831c050574889e648c7c03b0000004831d20f05"
  
 
  

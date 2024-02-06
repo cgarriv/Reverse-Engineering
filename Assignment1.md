@@ -5,6 +5,7 @@ Our challange was to write assembly code (shellcode.S) to use the syscall instru
 
 # My assembly code:
 
+```
 .global _start
 .text
 
@@ -33,7 +34,8 @@ mov $59, %rax
 # null
 xor %rdx, %rdx
 
-syscall 
+syscall
+```
 
 # Code Breakdown
 

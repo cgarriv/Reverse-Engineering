@@ -84,7 +84,27 @@ Week 4 assignment tasks us with solving our first crackme. In this assignment we
 	• The RSI and RDI, source and destination indices are used in string and array operations and they point to and move data within those operations.
 
 # Ghidra and IDA Screenshots
+![image](https://github.com/cgarriv/Reverse-Engineering/assets/122755821/67ae2099-1969-4262-bc5a-548024a41434)
+![image](https://github.com/cgarriv/Reverse-Engineering/assets/122755821/acd45aa3-4928-4133-8b44-6a76f68ef45d)
 
 # Solution Explanation
+When first examining the crackme I first changed to undefined8 function to be the int main function. This made the rest of the code simpler to understand.
+
+The next step was detecting variables and changing the name to be able to better interpert them. For example, there were 2 variables named local_10 and local_14. I detected these as being the password (local_10) to compare with the user input (local_14). 
+
+This is how it looks after those modifications:
+![image](https://github.com/cgarriv/Reverse-Engineering/assets/122755821/3152ea4c-5c06-411e-84e2-6225601743f0)
+
+Following that, I next focused on the validate_key function. The function was simple and I was able to understand that it takes a integer 'param_1' (user input) and checks if it is divisable by hex value 0x4C7 or 1223 and returns true if 'param_1' is a multiple of 1223 and false otherwise. 
+![image](https://github.com/cgarriv/Reverse-Engineering/assets/122755821/4caf06c7-aed2-403d-a6f5-baaaaa2af5bf)
+
+As we can see here, this was the correct password. However, we can also see that entering any char will produce the same results.
+![image](https://github.com/cgarriv/Reverse-Engineering/assets/122755821/c49e9723-c5e0-4cde-aa65-33d65ad84119)
+
 
 # Ghidra VS. IDA preferences
+
+In my experience using both IDA and Ghidra, I prefer Ghidra over IDA becuase of the ease of visability of information. To me the user interface was simple and easy to navigate in Ghidra espeacially for new unexperienced users. IDA had a lot of options, which may be useful in future cases and once a user adapts and learns the interface.
+
+I did like the graphical view that shows the flow of the program in IDA 
+![image](https://github.com/cgarriv/Reverse-Engineering/assets/122755821/05d38700-8461-4adb-8770-cd62eb8932f0)

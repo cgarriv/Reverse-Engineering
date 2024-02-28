@@ -65,7 +65,7 @@ import random
 import string
 
 def generate_password():
-    password = [random.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(16)]
+    password = [random.choice(string.ascii_letters + string.digits) for _ in range(16)]
 
     password[0] = 'A'  # 1st character
     password[1] = '6'  # 2nd character
@@ -88,3 +88,83 @@ Keygen output examples:
 - A6Y26ea%/M1q's%*
 - A6O2g1-%{8YBroa*
 - A6\2Y8Y%^=duFw5*
+
+
+# Control Flow 2
+
+Similar methods were used when approaching the crackme for control flow 2.
+
+Starting in main():
+- Required password to be 16 characters long
+- The program treats the second argument as the password
+- If password is less than 16 it throws: Error: Password was undercooked.
+- Calls rock()
+
+- rock():
+- Examines if index 6 is 'Y'
+- If true it calls paper()
+- if false it may enter infinite loop
+
+- paper():
+- Examines if index 8 is '#'
+- calls scissors if true
+- else infinite loop on paper
+
+- scissors():
+- Checks if index 10 is 'A'
+- if true it calls lizard()
+- if false it may call rock or recursively call scissors
+
+- lizard():
+- Examines if index 13 is '6'
+- calls spock if true
+- else it may call rock or recursive call on lizard
+
+- spock()
+- Examines if index 11 is '*'
+- if true calls win, indicating the password is correct.
+
+- In summary: we started at main() which was the source of the program and through examining the functions in ghidra and deducing the code to the required characters at the specified indexes we figured out the password must follow this convention:
+
+- Password length = 16
+- character 7 must = Y
+- character 9 must = #
+- character 11 must = A
+- character 12 must = *
+- character 14 must = 6
+
+  ## Keygen Code:
+
+```  
+import random
+import string
+
+def generate_password():
+    password = [random.choice(string.ascii_letters + string.digits) for _ in range(16)]
+
+    password[6] = 'Y'  # 7th character
+    password[8] = '#'  # 9th character
+    password[10] = 'A'  # 11th character
+    password[11] = '*' # 12th character
+    password[13] = '6'  # 14th character
+   
+
+    return ''.join(password)
+
+# display the password
+print("Generated password:", generate_password())
+```
+
+Keygen was verified for functionality
+
+Keygen output examples:
+
+- DRY4u2YI#IA*f6dZ
+- jd5al4Y6#iA*n6vm
+- 9FvUrcYg#nA*D6wv
+- qzQ56dYF#rA*e6eu
+- FPH8yFYI#1A*y6Vi
+
+
+
+

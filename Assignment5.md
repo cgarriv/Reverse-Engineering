@@ -52,4 +52,53 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+## Ransomware_2
+
+I had complications when solving ransomware_2. I attempted the same methodology used in the first ransomware but was not successful. I was successful in figuring out the First_Password
+being 'delicious' but was not able to decrypt the secret.txt file. Here is my attempt:
+
+#### 1. using Ghidra I analyzed the program using the source to sink technique. I mainly focused on the functions that the variables were calling and looked for the HEX values within those function calls. I thought that those values where the values being passed to compare with the key. Here is my deduced information gathered from this method:
+
+- `FUN_00011220 = 68 or 'D'`
+- `FUN_000111a0 = 36 or '$'`
+- `FUN_00011210 = 64 or '@'`
+- `FUN_00011190 = 32 or ' ' (Space)`
+- `FUN_00011160 = 20` (does not correspond directly to a printable ASCII character in the same manner; hex 20 is ' ' (Space))
+- `FUN_000111c0 = 44 or ','`
+- `FUN_000111b0 = 40 or '('`
+- `FUN_000111e0 = 52 or '4'`
+
+- I got the key "$(,4  @D'
+- by placing the HEX values in order of the functions as they where called in the ransomware
+- I then created a python program that would pass each char value as the key and XOR them as we did with char '4' in ransomware_1 Here is the code:
+
+```
+import sys
+if (len(sys.argv) != 3):
+print("Usage: decrypt.py INFILE OUTFILENAME")
+infile = sys.argv[1]
+outfile = sys.argv[2]
+key_string = "$(,4@D"
+key = [ord(c) for c in key_string]
+key_length = len(key)
+with open(infile, "rb") as inf:
+with open(outfile, "wb") as ouf:
+
+        contents = inf.read()
+    
+        for i, b in enumerate(contents):
+            xor_byte = b ^ key[i % key_length]
+            ouf.write(xor_byte.to_bytes(1, "big"))
+```
+
+- Unfortunately I was unable to decrypt the file using this method and further analysis will be preformed. I will update my work and findings.
+
+
+- Successful FIRST_PASSWORD discovery
+![image](https://github.com/cgarriv/Reverse-Engineering/assets/122755821/71a90790-a635-436a-adb9-5bce1b8b25e5)
+- Unsuccessful decryption of secret.txt
+![image](https://github.com/cgarriv/Reverse-Engineering/assets/122755821/608aee12-08ce-4570-aa5b-ea19d2b8afc6)
+
+
+
 
